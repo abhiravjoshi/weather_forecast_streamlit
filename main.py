@@ -17,6 +17,7 @@ if place:
     st.subheader(f"{type_data} in {place} for {forecast} days")
     dates = ["2022-25-10", "2022-26-10", "2022-27-10"]
     temps = [20, 23, 21]
+    temps = [forecast * i for i in temps]
     if type_data == 'Temperature':
         figure = px.line(x=dates, y=temps,
                          labels={'x':'Date', 'y': 'Temperature (C)'})
