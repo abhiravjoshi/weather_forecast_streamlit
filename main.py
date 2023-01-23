@@ -1,5 +1,5 @@
 import streamlit as st
-import matplotlib.pyplot as plt
+import plotly.express as px
 
 st.title("Weather Forecast")
 
@@ -15,3 +15,11 @@ type_data = st.selectbox("Select Data To View:",
 
 if place:
     st.subheader(f"{type_data} in {place} for {forecast} days")
+    dates = ["2022-25-10", "2022-26-10", "2022-27-10"]
+    temps = [20, 23, 21]
+    if type_data == 'Temperature':
+        figure = px.line(x=dates, y=temps,
+                         labels={'x':'Date', 'y': 'Temperature (C)'})
+    # else:
+        # figure = px.bar()
+    st.plotly_chart(figure)
