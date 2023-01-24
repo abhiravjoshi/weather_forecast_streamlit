@@ -13,5 +13,5 @@ def get_data(place, forecast=1, type_data='Temperature'):
 
 if __name__ == '__main__':
     test = get_data(place="Tokyo")
-    print(test)
-    temps = [dict['main']['temp'] for dict in test]
+    # print(test)
+    # temps = [dict['main']['temp'] for dict in test]

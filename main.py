@@ -18,14 +18,21 @@ if place:
     filtered_data = get_data(place=place, forecast=forecast)
     st.subheader(f"{type_data} in {place} for {forecast} days")
     dates = [dict['dt_txt'] for dict in filtered_data]
-    print(dates)
     match type_data:
         case 'Temperature':
             temps = [dict['main']['temp'] / 10 for dict in filtered_data]
             figure = px.line(x=dates, y=temps,
                              labels={'x': 'Date', 'y': 'Temperature (C)'})
+            st.plotly_chart(figure)
         case 'Sky':
             skies = [dict['weather'][0]['main'] for dict in filtered_data]
-            figure = px.line(x=dates, y=skies,
-                             labels={'x': 'Date', 'y': 'Weather'})
-    st.plotly_chart(figure)
+            # print(skies)
+            skies_png = []
+            reference = {'Clouds':  "images/cloud.png",
+                         'Rain':    "images/rain.png",
+                         'Snow':    "images/snow.png",
+                         'Clear':   "images/clear.png"}
+            for condition in skies:
+                skies_png.append(reference[condition])
+            images = st.image(skies_png, width=85)
+
