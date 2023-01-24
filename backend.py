@@ -6,15 +6,12 @@ def get_data(place, forecast=1, type_data='Temperature'):
     url = f"http://api.openweathermap.org/data/2.5/forecast?q={place}&appid={api}"
     req = requests.get(url)
     data = req.json()
-
-    match type_data:
-        case 'Temperature':
-            for i in range(forecast-1):
-                data['list'][i]['main']
-
-    return data['list'][0]['main']
+    # each forecast day has 8 readings
+    data_filtered = data['list'][:forecast * 8]
+    return data_filtered
 
 
 if __name__ == '__main__':
-    test = get_data(place="London")
+    test = get_data(place="Tokyo")
     print(test)
+    temps = [dict['main']['temp'] for dict in test]

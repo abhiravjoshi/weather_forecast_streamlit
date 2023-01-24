@@ -15,14 +15,17 @@ type_data = st.selectbox("Select Data To View:",
                          key='select')
 
 if place:
+    filtered_data = get_data(place=place, forecast=forecast)
     st.subheader(f"{type_data} in {place} for {forecast} days")
-    dates = ["2022-25-10", "2022-26-10", "2022-27-10"]
-    temps = [20, 23, 21]
-    temps = [forecast * i for i in temps]
-    dates, temps = get_data(place, forecast, type_data)
-    if type_data == 'Temperature':
-        figure = px.line(x=dates, y=temps,
-                         labels={'x':'Date', 'y': 'Temperature (C)'})
-    # else:
-        # figure = px.bar()
+    dates = [dict['dt_txt'] for dict in filtered_data]
+    print(dates)
+    match type_data:
+        case 'Temperature':
+            temps = [dict['main']['temp'] / 10 for dict in filtered_data]
+            figure = px.line(x=dates, y=temps,
+                             labels={'x': 'Date', 'y': 'Temperature (C)'})
+        case 'Sky':
+            skies = [dict['weather'][0]['main'] for dict in filtered_data]
+            figure = px.line(x=dates, y=skies,
+                             labels={'x': 'Date', 'y': 'Weather'})
     st.plotly_chart(figure)
